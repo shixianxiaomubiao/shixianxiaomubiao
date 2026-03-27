@@ -1,0 +1,113 @@
+                                                                                                                                                               創建瀏覽器
+
+創建編號腳本：
+
+for i in {1..100}
+do
+cat <<EOL > file_$i.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Browser Instance $i</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            font-size: 10em; /* 显眼的大字体 */
+            color: #ff0000;  /* 醒目的红色 */
+        }
+    </style>
+</head>
+<body>
+    <h1>$i</h1>  <!-- 这是显眼的编号 -->
+</body>
+</html>
+EOL
+done
+
+
+創建單個腳本：
+
+步驟：
+1. 打開終端，然後進入你想要生成腳本的目錄。
+2. 創建一個腳本來生成1000個可執行的腳本文件。
+創建生成腳本文件：
+bash
+复制代码
+touch generate_executable_scripts.sh
+編輯腳本：
+bash
+复制代码
+nano generate_executable_scripts.sh
+在文件中粘貼以下代碼：
+bash
+复制代码
+#!/bin/bash
+
+# 創建1000個腳本文件，並設置為可執行
+for i in {1..1000}
+do
+    script_name="Open_chrome_$i.sh"
+    
+    # 創建腳本文件並寫入內容
+    cat <<EOL > $script_name
+#!/bin/bash
+open -na "Google Chrome" --args --user-data-dir="/Users/alleylone/Browser/Chrome/TestNetwork/$i" --new-window "file:///Users/alleylone/Browser/Chrome/Num/$i.html"
+EOL
+
+    # 設置腳本為可執行
+    chmod +x $script_name
+done
+保存並退出：
+* 按下 Ctrl + X，然後按 Y，再按 回車。
+3. 使生成腳本可執行並運行它。
+使腳本可執行：
+bash
+复制代码
+chmod +x generate_executable_scripts.sh
+運行腳本來生成1000個可執行腳本：
+bash
+复制代码
+./generate_executable_scripts.sh
+
+
+
+
+
+創建生成組腳本文件：
+
+touch generate_grouped_scripts.sh
+
+編輯腳本：
+
+
+
+#!/bin/bash
+
+# 創建100個腳本文件，每個腳本包含10個命令
+for group in {1..100}
+do
+    # 創建每個組的腳本文件名稱，例如 MainNetwork_Group_1.sh
+    script_name="MainNetwork_Group_$group.sh"
+    
+    # 創建腳本文件並寫入標頭
+    echo "#!/bin/bash" > $script_name
+    
+    # 對於每個組，添加10個命令
+    for i in $(seq $(( (group - 1) * 10 + 1 )) $(( group * 10 )))
+    do
+        echo "open -na \"Google Chrome\" --args --user-data-dir=\"/Users/alleylone/Browser/Chrome/MainNetwork/$i\" --new-window \"file:///Users/alleylone/Browser/Chrome/Num/$i.html\"" >> $script_name
+    done
+    
+    # 設置腳本為可執行
+    chmod +x $script_name
+done
+
+
+
